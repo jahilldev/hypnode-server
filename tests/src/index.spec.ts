@@ -78,12 +78,13 @@ describe('Core:Hypnode', () => {
    });
 
    it('converts "className" to "class" when provided', () => {
-      const sample = `<p class="${testClass}">${testText}</p>`;
+      const sample = `<p class="${testClass}" title="${testText}">${testText}</p>`;
 
       const nodes = {
          nodeName: 'p',
          attrs: {
             className: testClass,
+            title: testText,
          },
          children: [testText],
       };

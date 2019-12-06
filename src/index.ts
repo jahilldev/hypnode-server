@@ -98,7 +98,7 @@ function applyNodeProperties(attrs: IAttrs) {
       .map(key => addElementAttributes(key, attrs[key]))
       .filter(item => !!item);
 
-   return result.length ? ` ${result.join('')}` : '';
+   return result.length ? ` ${result.join(' ')}` : '';
 }
 
 /* -----------------------------------
