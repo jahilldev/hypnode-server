@@ -1,4 +1,4 @@
-A super fast utility function to build HTML strings for server side rendering from [`hypnode`](https://www.npmjs.com/package/hypnode) virtual `DOM` references.
+A super fast utility function to build HTML strings for server side rendering from [`hypnode`](https://github.com/jhdevuk/hypnode) virtual `DOM` references.
 
 # Getting Started
 
