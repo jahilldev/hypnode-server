@@ -12,6 +12,29 @@ interface IAttrs {
 
 /* -----------------------------------
  *
+ * Variables
+ *
+ * -------------------------------- */
+
+const selfClosing = [
+   'area',
+   'base',
+   'br',
+   'col',
+   'embed',
+   'hr',
+   'img',
+   'input',
+   'link',
+   'meta',
+   'param',
+   'source',
+   'track',
+   'wbr',
+];
+
+/* -----------------------------------
+ *
  * Render
  *
  * -------------------------------- */
@@ -49,7 +72,13 @@ function renderElementNode(node: IVNode | string): string {
  * -------------------------------- */
 
 function openElementTag(name: Tag, attrs: IAttrs): string {
-   return `<${name + applyNodeProperties(attrs)}>`;
+   let result = `<${name + applyNodeProperties(attrs)}`;
+
+   if (selfClosing.indexOf(name as string) < 0) {
+      result += '>';
+   }
+
+   return result;
 }
 
 /* -----------------------------------
@@ -65,9 +94,11 @@ function applyNodeProperties(attrs: IAttrs) {
       return '';
    }
 
-   const result = keys.map(key => addElementAttributes(key, attrs[key]));
+   const result = keys
+      .map(key => addElementAttributes(key, attrs[key]))
+      .filter(item => !!item);
 
-   return ` ${result.join(' ')}`;
+   return result.length ? ` ${result.join('')}` : '';
 }
 
 /* -----------------------------------
@@ -82,7 +113,7 @@ function addElementAttributes(key: string, value: any) {
    }
 
    if (!value) {
-      return;
+      return '';
    }
 
    if (key === 'style') {
@@ -123,6 +154,10 @@ function addStyleProperties(value: IAttrs) {
  * -------------------------------- */
 
 function closeElementTag(name: Tag): string {
+   if (selfClosing.indexOf(name as string) > -1) {
+      return ' />';
+   }
+
    return `</${name}>`;
 }
 
