@@ -5,7 +5,7 @@
  * -------------------------------- */
 
 module.exports = {
-   testEnvironment: 'jsdom',
+   testEnvironment: 'node',
    globals: { __DEV__: true },
    roots: ['<rootDir>'],
    collectCoverage: true,

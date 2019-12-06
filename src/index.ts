@@ -37,7 +37,7 @@ function renderElementNode(node: IVNode | string): string {
 
    return (
       openElementTag(nodeName, attrs) +
-      children.map((child: any) => renderElementNode(child)).join('') +
+      children.map((child: IVNode) => renderElementNode(child)).join('') +
       closeElementTag(nodeName)
    );
 }
@@ -76,7 +76,7 @@ function applyNodeProperties(attrs: IAttrs) {
  *
  * -------------------------------- */
 
-function addElementAttributes(key: string, value: string) {
+function addElementAttributes(key: string, value: any) {
    if (['disabled', 'autocomplete', 'selected', 'checked'].indexOf(key) > -1) {
       return `${key}="${key}"`;
    }
@@ -85,11 +85,35 @@ function addElementAttributes(key: string, value: string) {
       return;
    }
 
+   if (key === 'style') {
+      return `${key}="${addStyleProperties(value)}"`;
+   }
+
    if (key === 'className') {
       key = 'class';
    }
 
    return `${key}="${value}"`;
+}
+
+/* -----------------------------------
+ *
+ * Styles
+ *
+ * -------------------------------- */
+
+function addStyleProperties(value: IAttrs) {
+   const items = Object.keys(value);
+
+   const result = items.reduce((style, key) => {
+      const name = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+
+      style += `${name}:${value[key]};`;
+
+      return style;
+   }, '');
+
+   return result;
 }
 
 /* -----------------------------------
