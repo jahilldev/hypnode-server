@@ -1,4 +1,4 @@
-import { IVNode, Tag } from 'hypnode';
+import { Tag, INode } from 'hypnode';
 
 /* -----------------------------------
  *
@@ -39,9 +39,7 @@ const selfClosing = [
  *
  * -------------------------------- */
 
-function render(input: any): string {
-   const node = input as IVNode;
-
+function render(node: INode): string {
    return renderElementNode(node);
 }
 
@@ -51,17 +49,17 @@ function render(input: any): string {
  *
  * -------------------------------- */
 
-function renderElementNode(node: IVNode | string): string {
+function renderElementNode(node: INode | string): string {
    if (typeof node === 'string') {
       return node;
    }
 
-   const { nodeName, attrs, children = [] } = node;
+   const { tag, attrs, children } = node;
 
    return (
-      openElementTag(nodeName, attrs) +
-      children.map((child: IVNode) => renderElementNode(child)).join('') +
-      closeElementTag(nodeName)
+      openElementTag(tag, attrs) +
+      children.map((child: INode) => renderElementNode(child)).join('') +
+      closeElementTag(tag)
    );
 }
 
@@ -88,7 +86,7 @@ function openElementTag(name: Tag, attrs: IAttrs): string {
  * -------------------------------- */
 
 function applyNodeProperties(attrs: IAttrs) {
-   const keys = Object.keys(attrs || {});
+   const keys = Object.keys(attrs);
 
    if (!keys.length) {
       return '';
@@ -108,6 +106,10 @@ function applyNodeProperties(attrs: IAttrs) {
  * -------------------------------- */
 
 function addElementAttributes(key: string, value: any) {
+   if (key.startsWith('on') || key === 'ref') {
+      return '';
+   }
+
    if (['disabled', 'autocomplete', 'selected', 'checked'].indexOf(key) > -1) {
       return `${key}="${key}"`;
    }

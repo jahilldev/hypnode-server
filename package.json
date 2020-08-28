@@ -1,6 +1,6 @@
 {
    "name": "hypnode-server",
-   "version": "1.0.2",
+   "version": "1.1.0",
    "description": "",
    "main": "dist/index.js",
    "types": "dist/index.d.ts",
@@ -29,7 +29,7 @@
    },
    "homepage": "https://github.com/jhdevuk/hypnode-server#readme",
    "dependencies": {
-      "hypnode": "^1.1.4"
+      "hypnode": "^1.3.1"
    },
    "devDependencies": {
       "@types/jest": "^24.0.23",
